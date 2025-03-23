@@ -12,7 +12,7 @@ import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profilePage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
-import products from "./components/products"; // Import the initial products array
+import products from "./components/products";
 
 function App() {
   const [cart, setCart] = useState([]);

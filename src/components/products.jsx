@@ -1,6 +1,7 @@
 const products = [
     {
       id: 1,
+      description: "Product 1-1",
       name: "Product 1-1",
       price: 19.99,
       colors: ["red", "blue", "green", "white"],
