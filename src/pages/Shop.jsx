@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import ProductList from "../components/ProductList";
-import Filters from "../components/Filter"; 
+import Filters from "../components/Filter";
 
-function Shop() {
-  const [cart, setCart] = useState([]); // Store cart data
+function Shop({ addToCart }) {
   const [selectedColor, setSelectedColor] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
@@ -19,30 +18,6 @@ function Shop() {
     { id: 4, name: "Product 2-2", price: 15.99, colors: ["brown", "gray", "teal", "black"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
     { id: 5, name: "Product 3", price: 39.99, colors: ["cyan", "magenta", "lime", "indigo"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
   ];
-
-  const addToCart = (product, selectedColor) => {
-    const newProduct = { ...product, selectedColor };
-
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find(
-        (item) => item.id === newProduct.id && item.selectedColor === newProduct.selectedColor
-      );
-
-      if (existingProduct) {
-        const updatedCart = prevCart.map((item) =>
-          item.id === newProduct.id && item.selectedColor === newProduct.selectedColor
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
-        return updatedCart;
-      } else {
-        const updatedCart = [...prevCart, { ...newProduct, quantity: 1 }];
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
-        return updatedCart;
-      }
-    });
-  };
 
   const filteredProducts = products.filter((product) => {
     const matchesColor = selectedColor ? product.colors.includes(selectedColor) : true;

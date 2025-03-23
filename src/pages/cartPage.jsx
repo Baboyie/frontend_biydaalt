@@ -1,40 +1,68 @@
-import React, { useEffect, useState } from "react";
 
-function Cart() {
-  const [cart, setCart] = useState([]);
+import { Card, CardContent, Typography, Button, Box, Grid } from "@mui/material";
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart)); // Load cart data from localStorage
-    }
-  }, []);
-
-  const handleRemove = (item) => {
-    const updatedCart = cart.filter(
-      (cartItem) => cartItem.id !== item.id || cartItem.selectedColor !== item.selectedColor
-    );
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update cart in localStorage
-  };
+function CartPage({ cart, removeFromCart }) {
+  // Calculate the total price of all items in the cart
+  const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <div>
-      <h2>Cart</h2>
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Your Cart
+      </Typography>
       {cart.length === 0 ? (
-        <p>Cart is empty</p>
+        <Typography variant="body1">Your cart is empty.</Typography>
       ) : (
-        cart.map((item) => (
-          <div key={`${item.id}-${item.selectedColor}`}>
-            <p>
-              {item.name} - ${item.price} x {item.quantity} ({item.selectedColor})
-            </p>
-            <button onClick={() => handleRemove(item)}>Remove from Cart</button>
-          </div>
-        ))
+        <>
+          <Grid container spacing={3}>
+            {cart.map((item) => (
+              <Grid item key={`${item.id}-${item.selectedColor}`} xs={12} sm={6} md={4}>
+                <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                  <Box
+                    component="img"
+                    src={item.picture}
+                    alt={item.name}
+                    sx={{
+                      width: "100%",
+                      height: 200,
+                      objectFit: "cover",
+                    }}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" noWrap>
+                      {item.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      ${item.price.toFixed(2)} x {item.quantity}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Color: {item.selectedColor}
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeFromCart(item)} // Use removeFromCart function
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Total Price Section */}
+          <Box sx={{ marginTop: 3, textAlign: "right" }}>
+            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+              Total: ${totalPrice.toFixed(2)}
+            </Typography>
+          </Box>
+        </>
       )}
-    </div>
+    </Box>
   );
 }
 
-export default Cart;
+export default CartPage;
