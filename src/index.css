@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filters label {
+  display: flex;
+  flex-direction: column;
+}
+
+.filters select,
+.filters input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

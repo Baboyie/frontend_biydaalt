@@ -1,0 +1,218 @@
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  padding: 16px;
+  width: 200px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: antiquewhite;
+}
+
+.product-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.product-price {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.product-colors {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-circle.selected {
+  border: 2px solid black;
+}
+
+.product-size {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.product-size button {
+  background: #ddd;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.add-to-cart {
+  background-color: #00BFFF;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+}
+
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 5px 16px 5px 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: gray;
+}
+
+
+
+/* home */
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.hero {
+  background: #f4f4f4;
+  padding: 50px;
+  border-radius: 10px;
+}
+
+.shop-btn {
+  background: #ff6600;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.shop-btn:hover {
+  background: #cc5500;
+}
+
+/* FOOTER */
+.footer {
+  background: #333;
+  color: white;
+  padding: 5px 0;
+  text-align: center;
+  margin-top: 30px;
+
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  
+  align-self: flex-end;
+}
+
+.footer-info, .footer-links, .footer-social {
+  margin: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin: 5px 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #ff6600;
+}
+
+.social-icons a {
+  font-size: 24px;
+  margin: 0 10px;
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #ff6600;
+}
+
+/* Ensure the app takes the full viewport height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures full height of the viewport */
+}
+
+.App {
+  flex: 1; /* Pushes the footer to the bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer Styling */
+.footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  margin-top: auto; /* Pushes it to the bottom */
+}
+
+.app-container {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
