@@ -12,10 +12,19 @@ export default function LoginPage() {
     if (!email || !password) {
       alert("Please fill in all fields.");
       return;
-    } else if (email === "test.user@gmail.com" && password === "12345") {
-      alert(`Logged in as: ${email}`);
+    }
+
+    // Example login logic
+    if (email === "admin@gmail.com" && password === "admin123") {
+      alert("Logged in as Admin");
       localStorage.setItem("isAuthenticated", "true");
-      navigate("/home");
+      localStorage.setItem("isAdmin", "true"); // Set admin flag
+      navigate("/admin"); // Redirect to admin panel
+    } else if (email === "user@gmail.com" && password === "user123") {
+      alert("Logged in as User");
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("isAdmin", "false"); // Set admin flag to false
+      navigate("/home"); // Redirect to home page
     } else {
       alert("Wrong Username or Password!!");
     }

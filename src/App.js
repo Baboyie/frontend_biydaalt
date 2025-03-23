@@ -4,14 +4,28 @@ import { Box } from "@mui/material";
 import CartPage from "./pages/cartPage";
 import Header from "./components/Header";
 import Home from "./pages/home";
-import Footer from "./components/Footer"; // Import Footer
+import Footer from "./components/Footer";
 import NotFound from "./pages/not-found";
 import ContactUs from "./pages/contact";
 import Shop from "./pages/Shop";
 import LoginPage from "./pages/login";
+import ProfilePage from "./pages/profilePage";
+import AdminPanel from "./pages/AdminPanel";
+import ProtectedRoute from "./components/ProtectedRoute";
+import products from "./components/products"; // Import the initial products array
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [productList, setProductList] = useState(() => {
+    // Load productList from localStorage or use the initial products array
+    const savedProductList = JSON.parse(localStorage.getItem("productList"));
+    return savedProductList || products;
+  });
+
+  // Save productList to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("productList", JSON.stringify(productList));
+  }, [productList]);
 
   // Load cart from localStorage on initial load
   useEffect(() => {
@@ -53,31 +67,77 @@ function App() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "100vh", // Ensure the container takes at least the full viewport height
+          minHeight: "100vh",
         }}
       >
         <Header cart={cart} />
         <Box
           component="main"
           sx={{
-            flexGrow: 1, // Allow the main content to grow and push the footer to the bottom
-            padding: 2, // Optional: Add padding for better spacing
+            flexGrow: 1,
+            padding: 2,
           }}
         >
           <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/menu" element={<Shop addToCart={addToCart} />} />
+
+            {/* Protected Routes for Authenticated Users */}
             <Route
-              path="/cart"
-              element={<CartPage cart={cart} removeFromCart={removeFromCart} />}
-            />
+              element={
+                <ProtectedRoute
+                  isAuthenticated={
+                    localStorage.getItem("isAuthenticated") === "true"
+                  }
+                  isAdmin={localStorage.getItem("isAdmin") === "true"}
+                  adminOnly={false}
+                />
+              }
+            >
+              <Route path="/contact" element={<ContactUs />} />
+              <Route
+                path="/menu"
+                element={<Shop products={productList} addToCart={addToCart} />}
+              />
+              <Route
+                path="/cart"
+                element={
+                  <CartPage cart={cart} removeFromCart={removeFromCart} />
+                }
+              />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+
+            {/* Protected Routes for Admins Only */}
+            <Route
+              element={
+                <ProtectedRoute
+                  isAuthenticated={
+                    localStorage.getItem("isAuthenticated") === "true"
+                  }
+                  isAdmin={localStorage.getItem("isAdmin") === "true"}
+                  adminOnly={true}
+                />
+              }
+            >
+              <Route
+                path="/admin"
+                element={
+                  <AdminPanel
+                    productList={productList}
+                    setProductList={setProductList}
+                  />
+                }
+              />
+            </Route>
+
+            {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
-            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </Box>
-        <Footer /> {/* Footer will stick to the bottom */}
+        <Footer />
       </Box>
     </BrowserRouter>
   );

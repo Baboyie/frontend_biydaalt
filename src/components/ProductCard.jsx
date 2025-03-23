@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Typography, Modal } from "@mui/material";
 
 const ProductCard = ({ product, addToCart }) => {
-
   const [size, setSize] = useState(1); // Default size (quantity) is 1
   const [selectedColor, setSelectedColor] = useState(product.colors[0]); // Set first color as default
- // Debugging: Check selected color
+  const [open, setOpen] = useState(false); // Modal state
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const increaseSize = () => setSize(size + 1);
   const decreaseSize = () => setSize(size > 1 ? size - 1 : 1);
@@ -19,13 +21,14 @@ const ProductCard = ({ product, addToCart }) => {
         textAlign: "center",
         maxWidth: 300,
         margin: "auto",
-        backgroundColor: "antiquewhite",
+        backgroundColor: "#ffffff",
       }}
     >
       <img
         src={product.picture}
         alt={product.name}
-        style={{ width: "100%", height: 200, objectFit: "cover", borderRadius: 8 }}
+        style={{ width: "100%", height: 200, objectFit: "cover", borderRadius: 8, cursor: "pointer" }}
+        onClick={handleOpen} // Open modal on image click
       />
       <Typography variant="h6" sx={{ marginTop: 2 }}>
         {product.name}
@@ -89,6 +92,38 @@ const ProductCard = ({ product, addToCart }) => {
       >
         ADD TO CART
       </Button>
+
+      {/* Product Detail Modal */}
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            {product.name}
+          </Typography>
+          <img
+            src={product.picture}
+            alt={product.name}
+            style={{ width: "100%", height: 200, objectFit: "cover", borderRadius: 8, marginTop: 2 }}
+          />
+          <Typography sx={{ mt: 2 }}>Price: ${product.price}</Typography>
+          <Typography sx={{ mt: 2 }}>Colors: {product.colors.join(", ")}</Typography>
+          <Typography sx={{ mt: 2 }}>Description: {product.description}</Typography> {/* Display description */}
+          <Button onClick={handleClose} sx={{ mt: 2 }}>
+            Close
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 };

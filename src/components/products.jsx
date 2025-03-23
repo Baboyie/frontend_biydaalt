@@ -35,4 +35,4 @@ const products = [
       picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg",
     },
   ];
-  
+  export default products;

@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import ProductList from "../components/ProductList";
 import Filters from "../components/Filter";
 
-function Shop({ addToCart }) {
+function Shop({ products, addToCart }) {
   const [selectedColor, setSelectedColor] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
@@ -11,22 +11,17 @@ function Shop({ addToCart }) {
 
   const colors = ["red", "blue", "green", "white", "yellow", "purple", "black", "brown", "pink", "orange", "cyan", "magenta", "lime", "indigo"];
 
-  const products = [
-    { id: 1, name: "Product 1-1", price: 19.99, colors: ["red", "blue", "green", "white"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
-    { id: 2, name: "Product 1-2", price: 24.99, colors: ["yellow", "purple", "white", "brown"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
-    { id: 3, name: "Product 2-1", price: 29.99, colors: ["black", "pink", "orange", "green"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
-    { id: 4, name: "Product 2-2", price: 15.99, colors: ["brown", "gray", "teal", "black"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
-    { id: 5, name: "Product 3", price: 39.99, colors: ["cyan", "magenta", "lime", "indigo"], picture: "https://t3.ftcdn.net/jpg/10/00/82/64/360_F_1000826459_SkULxmIvvHot6n271iimrZvcUekncxsw.jpg" },
-  ];
+  // Ensure products is an array before filtering
+  const filteredProducts = Array.isArray(products)
+    ? products.filter((product) => {
+        const matchesColor = selectedColor ? product.colors.includes(selectedColor) : true;
+        const matchesName = product.name.toLowerCase().includes(selectedName.toLowerCase());
+        const matchesMinPrice = product.price >= minPrice;
+        const matchesMaxPrice = product.price <= maxPrice;
 
-  const filteredProducts = products.filter((product) => {
-    const matchesColor = selectedColor ? product.colors.includes(selectedColor) : true;
-    const matchesName = product.name.toLowerCase().includes(selectedName.toLowerCase());
-    const matchesMinPrice = product.price >= minPrice;
-    const matchesMaxPrice = product.price <= maxPrice;
-
-    return matchesColor && matchesName && matchesMinPrice && matchesMaxPrice;
-  });
+        return matchesColor && matchesName && matchesMinPrice && matchesMaxPrice;
+      })
+    : []; // Fallback to an empty array if products is not an array
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
