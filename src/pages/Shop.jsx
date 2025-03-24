@@ -30,22 +30,6 @@ function Shop({ products, addToCart }) {
     "lime",
     "indigo",
   ];
-  const brands = [
-    "Nike",
-    "Adidas",
-    "Puma",
-    "Reebok",
-    "Apple",
-    "Samsung",
-    "Sony",
-  ];
-  const categories = [
-    "Shoes",
-    "Electronics",
-    "Clothing",
-    "Accessories",
-    "Furniture",
-  ];
 
   const filteredProducts = products.filter((product) => {
     const matchesColor = filters.selectedColor
@@ -101,8 +85,7 @@ function Shop({ products, addToCart }) {
             inStock={filters.inStock}
             setInStock={(stock) => setFilters({ ...filters, inStock: stock })}
             colors={colors}
-            brands={brands}
-            categories={categories}
+            
           />
         </Grid>
         <Grid item xs={12} md={9}>
