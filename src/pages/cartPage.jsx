@@ -33,7 +33,7 @@ function CartPage({ cart, removeFromCart }) {
                       {item.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      ${item.price.toFixed(2)} x {item.quantity}
+                      ${Number(item.price).toFixed(2)} x {item.quantity}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Color: {item.selectedColor}
