@@ -62,7 +62,6 @@ function Shop({ products, addToCart }) {
       : true;
     const matchesMinPrice = product.price >= filters.minPrice;
     const matchesMaxPrice = product.price <= filters.maxPrice;
-    const matchesStock = filters.inStock ? product.inStock === true : true;
 
     return (
       matchesColor &&
@@ -70,8 +69,7 @@ function Shop({ products, addToCart }) {
       matchesBrand &&
       matchesCategory &&
       matchesMinPrice &&
-      matchesMaxPrice &&
-      matchesStock
+      matchesMaxPrice
     );
   });
 
