@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Typography,
   TextField,
   Select,
@@ -10,8 +9,6 @@ import {
   Button,
   Slider,
   Paper,
-  Switch,
-  FormControlLabel,
 } from "@mui/material";
 import { motion } from "framer-motion";
 
@@ -125,17 +122,6 @@ const Filters = ({
         sx={{ mb: 2 }}
       />
 
-      {/* Stock Availability */}
-      <FormControlLabel
-        control={
-          <Switch
-            checked={inStock}
-            onChange={(e) => setInStock(e.target.checked)}
-          />
-        }
-        label="In Stock Only"
-        sx={{ mb: 2 }}
-      />
 
       {/* Apply Button */}
       <Button

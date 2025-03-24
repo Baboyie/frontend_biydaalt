@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.11",
+    "backend": "file:",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "pg": "^8.14.1",

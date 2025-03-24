@@ -7,7 +7,6 @@ interface Product {
   colors: string[];
   picture: string;
   description?: string;
-  rating?: number;
 }
 
 export const getProducts = async (): Promise<Product[]> => {
@@ -17,14 +16,13 @@ export const getProducts = async (): Promise<Product[]> => {
 
 export const addProduct = async (product: Product): Promise<Product> => {
   const { rows } = await pool.query(
-    "INSERT INTO products (name, price, colors, picture, description, rating) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+    "INSERT INTO products (name, price, colors, picture, description) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [
       product.name,
       product.price,
       product.colors,
       product.picture,
       product.description,
-      product.rating,
     ]
   );
   return rows[0];
