@@ -12,18 +12,33 @@ import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profilePage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
-import products from "./components/products";
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [productList, setProductList] = useState(() => {
-    const savedProductList = JSON.parse(localStorage.getItem("productList"));
-    return savedProductList || products;
-  });
+  const [productList, setProductList] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state for the API call
+  const [error, setError] = useState(null); // Add error state to handle API errors
 
   useEffect(() => {
-    localStorage.setItem("productList", JSON.stringify(productList));
-  }, [productList]);
+    // Fetch products from the backend
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProductList(data);
+      } catch (error) {
+        setError(error.message);
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false); // Stop loading when the fetch is complete
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -57,6 +72,15 @@ function App() {
   };
 
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+
+  // If loading or error, show loading state or error message
+  if (loading) {
+    return <div>Loading products...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <BrowserRouter>

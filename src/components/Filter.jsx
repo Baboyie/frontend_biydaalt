@@ -6,7 +6,6 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Button,
   Slider,
   Paper,
 } from "@mui/material";
@@ -122,18 +121,7 @@ const Filters = ({
         sx={{ mb: 2 }}
       />
 
-
-      {/* Apply Button */}
-      <Button
-        component={motion.button}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        variant="contained"
-        color="primary"
-        fullWidth
-      >
-        Apply Filters
-      </Button>
+      
     </Paper>
   );
 };

@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, TextField, Button, List, ListItem, ListItemText, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function AdminPanel({ productList, setProductList }) {
+function AdminPanel() {
+  const [productList, setProductList] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
     colors: "",
     picture: "",
-    description: "", // Add description field
-    rating: "", // Add rating field
+    description: "",
   });
+
+  useEffect(() => {
+    // Fetch products from the backend
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const products = await response.json();
+        setProductList(products);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,29 +38,58 @@ function AdminPanel({ productList, setProductList }) {
     }));
   };
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     if (newProduct.name && newProduct.price && newProduct.picture) {
       const product = {
-        id: productList.length + 1, // Generate a unique ID
         ...newProduct,
         price: parseFloat(newProduct.price),
-        colors: newProduct.colors.split(",").map((color) => color.trim()), // Convert comma-separated string to array
-        rating: parseFloat(newProduct.rating), // Convert rating to a number
+        colors: newProduct.colors.split(",").map((color) => color.trim()),
       };
-      setProductList((prev) => [...prev, product]); // Add new product to the list
-      setNewProduct({
-        name: "",
-        price: "",
-        colors: "",
-        picture: "",
-        description: "", // Reset description field
-        rating: "", // Reset rating field
-      }); // Reset form
+
+      try {
+        const response = await fetch("http://localhost:5000/api/products", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(product),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add product");
+        }
+
+        const addedProduct = await response.json();
+        setProductList((prev) => [...prev, addedProduct]);
+
+        // Clear the input fields
+        setNewProduct({
+          name: "",
+          price: "",
+          colors: "",
+          picture: "",
+          description: "",
+        });
+      } catch (error) {
+        console.error("Failed to add product:", error);
+      }
     }
   };
 
-  const handleRemoveProduct = (id) => {
-    setProductList((prev) => prev.filter((product) => product.id !== id)); // Remove product by ID
+  const handleRemoveProduct = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+
+      setProductList((prev) => prev.filter((product) => product.id !== id));
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
   };
 
   return (

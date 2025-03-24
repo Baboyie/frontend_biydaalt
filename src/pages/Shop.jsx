@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import ProductList from "../components/ProductList";
 import Filters from "../components/Filter";
 
-function Shop({ products, addToCart }) {
+function Shop({ addToCart }) {
+  const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({
     selectedColor: "",
     minPrice: 10,
@@ -14,21 +15,34 @@ function Shop({ products, addToCart }) {
     inStock: false,
   });
 
+  // Fetch products from the backend using fetch API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const colors = [
-    "red",
-    "blue",
-    "green",
-    "white",
-    "yellow",
-    "purple",
-    "black",
-    "brown",
-    "pink",
-    "orange",
-    "cyan",
-    "magenta",
-    "lime",
-    "indigo",
+    "red", "blue", "green", "white", "yellow", "purple", 
+    "black", "brown", "pink", "orange", "cyan", "magenta", 
+    "lime", "indigo",
+  ];
+  const brands = [
+    "Nike", "Adidas", "Puma", "Reebok", "Apple", "Samsung", "Sony",
+  ];
+  const categories = [
+    "Shoes", "Electronics", "Clothing", "Accessories", "Furniture",
   ];
 
   const filteredProducts = products.filter((product) => {
@@ -46,6 +60,7 @@ function Shop({ products, addToCart }) {
       : true;
     const matchesMinPrice = product.price >= filters.minPrice;
     const matchesMaxPrice = product.price <= filters.maxPrice;
+    const matchesStock = filters.inStock ? product.inStock === true : true;
 
     return (
       matchesColor &&
@@ -53,7 +68,8 @@ function Shop({ products, addToCart }) {
       matchesBrand &&
       matchesCategory &&
       matchesMinPrice &&
-      matchesMaxPrice
+      matchesMaxPrice &&
+      matchesStock
     );
   });
 
@@ -85,7 +101,8 @@ function Shop({ products, addToCart }) {
             inStock={filters.inStock}
             setInStock={(stock) => setFilters({ ...filters, inStock: stock })}
             colors={colors}
-            
+            brands={brands}
+            categories={categories}
           />
         </Grid>
         <Grid item xs={12} md={9}>
