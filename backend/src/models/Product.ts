@@ -22,9 +22,9 @@ export const addProduct = async (product: Product): Promise<Product> => {
     [
       product.name,
       product.price,
-      JSON.stringify(product.colors), // Ensure proper array handling
+      product.colors,
       product.picture,
-      product.description || null,
+      product.description ?? null,
     ]
   );
   return rows[0];
