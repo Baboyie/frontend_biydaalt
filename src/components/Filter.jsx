@@ -75,51 +75,21 @@ const Filters = ({
         </Select>
       </FormControl>
 
-      {/* Brand Filter */}
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Brand</InputLabel>
-        <Select
-          value={selectedBrand}
-          onChange={(e) => setSelectedBrand(e.target.value)}
-        >
-          <MenuItem value="">All</MenuItem>
-          {brands.map((brand) => (
-            <MenuItem key={brand} value={brand}>
-              {brand}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* Category Filter */}
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Category</InputLabel>
-        <Select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <MenuItem value="">All</MenuItem>
-          {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              {category}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
       {/* Price Range Slider */}
       <Typography gutterBottom>Price Range</Typography>
       <Slider
-        value={[minPrice, maxPrice]}
-        onChange={(e, newValue) => {
-          setMinPrice(newValue[0]);
-          setMaxPrice(newValue[1]);
-        }}
-        valueLabelDisplay="auto"
-        min={10} // Бага утгыг 10 болгосон
-        max={500} // Дээд утгыг 500 болгосон
-        sx={{ mb: 2 }}
-      />
+  value={[minPrice, maxPrice]}
+  onChange={(e, newValue) => {
+    const [newMin, newMax] = newValue;
+    if (newMin !== minPrice) setMinPrice(newMin);
+    if (newMax !== maxPrice) setMaxPrice(newMax);
+  }}
+  valueLabelDisplay="auto"
+  min={0} 
+  max={100} 
+  sx={{ mb: 2 }}
+/>
+
 
       
     </Paper>

@@ -12,6 +12,7 @@ import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profilePage";
 import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProductDetailPage from "./pages/productDetailPage";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -115,6 +116,10 @@ function App() {
               <Route
                 path="/menu"
                 element={<Shop products={productList} addToCart={addToCart} />}
+              />
+              <Route
+                path="/products/:id"
+                element={<ProductDetailPage addToCart={addToCart} />}
               />
               <Route
                 path="/cart"

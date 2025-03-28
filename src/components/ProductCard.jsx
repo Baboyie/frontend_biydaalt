@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Typography, Modal, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import { Link } from "react-router-dom";
 const ProductCard = ({ product, addToCart }) => {
   const [size, setSize] = useState(1);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
@@ -26,19 +26,41 @@ const ProductCard = ({ product, addToCart }) => {
       }}
     >
       {/* Product Image */}
-      <Box
-        component="img"
-        src={product.picture}
-        alt={product.name}
-        sx={{
-          width: "100%",
-          height: 180,
-          objectFit: "cover",
-          borderRadius: 2,
-          cursor: "pointer",
-        }}
-        onClick={handleOpen}
-      />
+      <Box sx={{ position: 'relative' }}>
+  {/* This Link handles the full-page navigation */}
+  <Link to={`/products/${product.id}`} style={{ display: 'block' }}>
+    <Box
+      component="img"
+      src={product.picture}
+      alt={product.name}
+      sx={{
+        width: "100%",
+        height: 180,
+        objectFit: "cover",
+        borderRadius: 2,
+        cursor: "pointer",
+      }}
+    />
+  </Link>
+  
+  {/* Add a "Quick View" button that triggers the modal */}
+  <Button 
+    variant="outlined" 
+    onClick={handleOpen}
+    sx={{
+      position: 'absolute',
+      bottom: 8,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      backgroundColor: 'rgba(255,255,255,0.9)',
+      '&:hover': {
+        backgroundColor: 'white'
+      }
+    }}
+  >
+    Quick View
+  </Button>
+</Box>
 
       {/* Product Info */}
       <Typography variant="h6" sx={{ mt: 1, fontWeight: "bold" }}>
